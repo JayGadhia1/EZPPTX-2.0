@@ -2,6 +2,8 @@
 
 The primary purpose of this project is to streamline Adobe Express's presentation process to a PowerPoint format. We noticed a problem that Express only allows for PDFs, PNGs, and JPEGs. To get the presentation to pptx file extension, you have to use another one of Adobe's software, Acrobat. This project aims to eliminate that extra step and have the user instantly convert from image formatting to PowerPoint.
 
+(Working Repo, all branches workflow can be tied back to EzPPTX 1.0)
+
 ## Getting Started
 
 These instructions will guide you through setting up and running the project on your local machine for development and testing.
