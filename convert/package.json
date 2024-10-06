@@ -1,0 +1,22 @@
+{
+    "name": "convert",
+    "version": "1.0.0",
+    "description": "Adobe Express Add-on for PDF to PPTX and DOCX conversion",
+    "scripts": {
+      "prestart": "node scripts/setup.js",
+      "start": "node scripts/start.js",
+      "build": "ccweb-add-on-scripts build",
+      "validate": "ccweb-add-on-scripts validate"
+    },
+    "dependencies": {
+      "@adobe/pdfservices-node-sdk": "^3.0.0",
+      "cors": "^2.8.5",
+      "dotenv": "^16.4.5",
+      "express": "^4.17.1",
+      "streamifier": "^0.1.1",
+      "concurrently": "^6.2.0"
+    },
+    "devDependencies": {
+      "@adobe/ccweb-add-on-scripts": "^2.4.1"
+    }
+  }

@@ -1,0 +1,4 @@
+{
+    "python.pythonPath": "${workspaceFolder}/server/python_backend/venv/bin/python",
+    "python.analysis.extraPaths": ["${workspaceFolder}/server/python_backend"]
+}
