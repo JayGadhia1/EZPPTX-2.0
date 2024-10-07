@@ -10,10 +10,8 @@ These instructions will guide you through setting up and running the project on 
 
 ### Prerequisites
 
-Make sure you have the following installed on your machine:
-- Node.js (https://nodejs.org/)
-- npm (https://www.npmjs.com/)
-- Any additional dependencies or software (e.g., MongoDB, Docker, etc.)
+The scripts actually set up all the dependencies for node.js and python. An update of the API's client ids with your own would be needed in their respective .env
+to run just put 'npm start' on your terminal.
 
 ### Installation
 
