@@ -37,13 +37,10 @@ addOnUISdk.ready.then(() => {
 
             const pdfBlob = renditions[0].blob;
 
-            // **Check the format to determine the correct server and request format**
             if (format === "DOCX") {
-                // DOCX uses Python server at `http://127.0.0.1:5000/convert`
                 const formData = new FormData();
-                formData.append('file', pdfBlob, 'presentation.pdf');  // Append the PDF as 'file'
+                formData.append('file', pdfBlob, 'presentation.pdf');
 
-                // Send form-data to the Python server
                 const response = await fetch(serverUrl, {
                     method: 'POST',
                     body: formData
@@ -51,21 +48,15 @@ addOnUISdk.ready.then(() => {
 
                 if (response.ok) {
                     const result = await response.json();
-
-                    // Store the URL for copying
                     copyLinkButton.dataset.url = result.downloadUrl;
-
-                    // Show the copy button
                     loadingSpinner.style.display = "none";
                     copyLinkButton.style.display = "block";
                     showStatus(`Conversion to ${format} complete. Click 'Copy Link' to get the download URL.`);
-
                 } else {
                     console.error('Server response not OK:', response.status);
                     showStatus(`An error occurred during conversion to ${format}. Please try again.`);
                 }
             } else {
-                // PPTX uses Node.js server at `http://localhost:3000/convert`
                 const response = await fetch(serverUrl, {
                     method: 'POST',
                     body: pdfBlob,
@@ -76,15 +67,10 @@ addOnUISdk.ready.then(() => {
 
                 if (response.ok) {
                     const result = await response.json();
-
-                    // Store the URL for copying
                     copyLinkButton.dataset.url = result.downloadUrl;
-
-                    // Show the copy button
                     loadingSpinner.style.display = "none";
                     copyLinkButton.style.display = "block";
                     showStatus(`Conversion to ${format} complete. Click 'Copy Link' to get the download URL.`);
-
                 } else {
                     console.error('Server response not OK:', response.status);
                     showStatus(`An error occurred during conversion to ${format}. Please try again.`);
