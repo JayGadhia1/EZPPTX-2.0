@@ -11,6 +11,8 @@ const fs = require("fs");
 const path = require("path");
 const streamifier = require("streamifier");
 
+const OUTPUT_DIR = path.join(__dirname, 'output');
+
 async function convertPDFtoPPTX(pdfBuffer) {
     try {
         const credentials = new ServicePrincipalCredentials({
@@ -20,7 +22,6 @@ async function convertPDFtoPPTX(pdfBuffer) {
 
         const pdfServices = new PDFServices({ credentials });
 
-        // Use streamifier to create a stream from the buffer
         const inputAsset = await pdfServices.upload({
             readStream: streamifier.createReadStream(pdfBuffer),
             mimeType: MimeType.PDF
@@ -40,19 +41,27 @@ async function convertPDFtoPPTX(pdfBuffer) {
         const resultAsset = pdfServicesResponse.result.asset;
         const streamAsset = await pdfServices.getContent({ asset: resultAsset });
 
-        // Ensure the output directory exists
-        const outputDir = './server/output';
-        if (!fs.existsSync(outputDir)) {
-            fs.mkdirSync(outputDir, { recursive: true });
+        if (!fs.existsSync(OUTPUT_DIR)) {
+            fs.mkdirSync(OUTPUT_DIR, { recursive: true });
         }
 
-        const outputFilePath = path.join(outputDir, "PPTXOutput.pptx");
+        const outputFilePath = path.join(OUTPUT_DIR, "PPTXOutput.pptx");
         console.log(`Saving asset at ${outputFilePath}`);
 
-        const outputStream = fs.createWriteStream(outputFilePath);
-        streamAsset.readStream.pipe(outputStream);
+        return new Promise((resolve, reject) => {
+            const outputStream = fs.createWriteStream(outputFilePath);
+            streamAsset.readStream.pipe(outputStream);
 
-        console.log("PDF to PPTX conversion completed successfully");
+            outputStream.on('finish', () => {
+                console.log("PDF to PPTX conversion completed successfully");
+                resolve(outputFilePath);
+            });
+
+            outputStream.on('error', (err) => {
+                console.error("Error writing to file:", err);
+                reject(err);
+            });
+        });
     } catch (err) {
         console.error("Exception encountered while executing operation", err);
         throw err;
